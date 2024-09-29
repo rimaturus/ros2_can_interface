@@ -1,7 +1,7 @@
 
-# ROS2 CAN Converter
+# ROS2 CAN interface
 
-`ros2_can_converter` is a ROS 2 package designed to facilitate seamless communication between ROS 2 topics and Controller Area Network (CAN) messages. It provides two primary nodes:
+`ros2_can_interface` is a ROS 2 package designed to facilitate seamless communication between ROS 2 topics and Controller Area Network (CAN) messages. It provides two primary nodes:
 
 1. **ROS2 to CAN Publisher (`ros2can`)**: Subscribes to specified ROS 2 topics, serializes the messages, segments them if necessary, and transmits them over the CAN bus.
 
@@ -61,7 +61,7 @@ This package is particularly useful in robotics and automotive applications wher
 2. **Clone the Package**:
 
     ```bash
-    git clone https://github.com/yourusername/ros2_can_converter.git
+    git clone https://github.com/yourusername/ros2_can_interface.git
     ```
 
 3. **Install Python Dependencies**:
@@ -74,7 +74,7 @@ This package is particularly useful in robotics and automotive applications wher
 
     ```bash
     cd ~/ros2_can_ws/
-    colcon build --packages-select ros2_can_converter
+    colcon build --packages-select ros2_can_interface
     ```
 
 5. **Source the Workspace**:
@@ -91,24 +91,24 @@ This package is particularly useful in robotics and automotive applications wher
 
 The `mapping.yaml` file defines how ROS 2 topics map to CAN messages and vice versa. It specifies CAN IDs, message fields, data types, and segmentation parameters.
 
-**Location:** `ros2_can_converter/config/mapping.yaml`
+**Location:** `ros2_can_interface/config/mapping.yaml`
 
 **Sample `mapping.yaml`:**
 
 ```yaml
 ros_to_can:
-  /sensor/temperature_velocity:
-    can_id_base: 0x100
+  /psd_vehicle/pose:
+    can_id_base: 0x200
     fields:
-      temperature: 
+      car_x: 
         start_bit: 0
         length: 32
         type: float
-      velocity_x:
+      car_y:
         start_bit: 32
         length: 32
         type: float
-      velocity_y:
+      car_yaw:
         start_bit: 64
         length: 32
         type: float
@@ -148,7 +148,7 @@ If you've made changes to the package or added new dependencies, rebuild the wor
 
 ```bash
 cd ~/ros2_can_ws/
-colcon build --packages-select ros2_can_converter
+colcon build --packages-select ros2_can_interface
 source install/setup.bash
 ```
 
@@ -159,7 +159,7 @@ source install/setup.bash
 This node subscribes to ROS 2 topics and publishes corresponding CAN messages.
 
 ```bash
-ros2 run ros2_can_converter ros2can
+ros2 run ros2_can_interface ros2can
 ```
 
 #### 2. Run the CAN to ROS2 Subscriber Node (`can2ros`)
@@ -167,7 +167,7 @@ ros2 run ros2_can_converter ros2can
 This node listens to CAN messages and publishes corresponding ROS 2 topics.
 
 ```bash
-ros2 run ros2_can_converter can2ros
+ros2 run ros2_can_interface can2ros
 ```
 
 ---
@@ -205,7 +205,7 @@ ros2 run ros2_can_converter can2ros
    In a new terminal, publish a test message:
 
    ```bash
-   ros2 topic pub /sensor/temperature_velocity std_msgs/msg/Float32MultiArray "data: [25.5, 3.2, -1.1]"
+   ros2 topic pub /psd_vehicle/pose std_msgs/msg/Float32MultiArray "data: [25.5, 3.2, -1.1]"
    ```
 
 5. **Verify Reception:**
@@ -222,9 +222,9 @@ ros2 run ros2_can_converter can2ros
 
 ### Common Issues and Solutions
 
-- **`ModuleNotFoundError: No module named 'ros2_can_converter.ros2can'`**:
+- **`ModuleNotFoundError: No module named 'ros2_can_interface.ros2can'`**:
 
-  Ensure that `ros2can.py` is correctly placed inside the `ros2_can_converter` package and `setup.py` is correctly configured.
+  Ensure that `ros2can.py` is correctly placed inside the `ros2_can_interface` package and `setup.py` is correctly configured.
 
 - **`AttributeError: property 'subscriptions' of 'ROS2ToCANPublisher' object has no setter`**:
 
@@ -243,19 +243,21 @@ ros2 run ros2_can_converter can2ros
 ## Package Structure
 
 ```
-ros2_can_converter/
-├── config/
-│   └── mapping.yaml
+ros2_can_interface/
+├── config
+│   └── mapping.yaml
 ├── package.xml
-├── resource/
-│   └── ros2_can_converter
-├── ros2_can_converter/
-│   ├── __init__.py
-│   ├── can2ros.py
-│   └── ros2can.py
+├── README.md
+├── resource
+│   └── ros2_can_converter
+├── ros2_can_converter
+│   ├── can2ros.py
+│   ├── __init__.py
+│   └── ros2can.py
 ├── setup.cfg
 ├── setup.py
-└── test/
+└── test
+    ├── test_copyright.py
     ├── test_flake8.py
     └── test_pep257.py
 ```
