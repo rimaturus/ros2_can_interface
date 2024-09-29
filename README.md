@@ -54,26 +54,26 @@ This package is particularly useful in robotics and automotive applications wher
 1. **Set Up Your ROS 2 Workspace**:
 
     ```bash
-    mkdir -p ~/ros2_can_ws/src
-    cd ~/ros2_can_ws/src
+    cd ~/psd_ws/src
     ```
 
 2. **Clone the Package**:
 
     ```bash
-    git clone https://github.com/yourusername/ros2_can_interface.git
+    git clone https://github.com/rimaturus/ros2_can_interface.git
     ```
 
 3. **Install Python Dependencies**:
 
     ```bash
-    pip install python-can pyyaml ament_index_python
+    pip install python-can pyyaml ament_index_python --break-system-packages 
     ```
+    **Achtung!** [WIP cleaner fix] 
 
 4. **Build the Package**:
 
     ```bash
-    cd ~/ros2_can_ws/
+    cd ~/psd_ws/
     colcon build --packages-select ros2_can_interface
     ```
 
@@ -147,7 +147,7 @@ can_to_ros:
 If you've made changes to the package or added new dependencies, rebuild the workspace:
 
 ```bash
-cd ~/ros2_can_ws/
+cd ~/psd_ws/
 colcon build --packages-select ros2_can_interface
 source install/setup.bash
 ```
