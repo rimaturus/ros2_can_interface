@@ -1,16 +1,16 @@
 ros_to_can:
-  /sensor/temperature_velocity:
-    can_id_base: 0x100
+  /psd_vehicle/pose:
+    can_id_base: 0x200
     fields:
-      temperature: 
+      car_x: 
         start_bit: 0
         length: 32
         type: float
-      velocity_x:
+      car_y:
         start_bit: 32
         length: 32
         type: float
-      velocity_y:
+      car_yaw:
         start_bit: 64
         length: 32
         type: float
